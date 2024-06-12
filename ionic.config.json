@@ -1,0 +1,7 @@
+{
+  "name": "VisiteurNew",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
