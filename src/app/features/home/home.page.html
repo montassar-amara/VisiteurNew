@@ -1,0 +1,59 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+      <ion-title>{{"Introduction" | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- {{isEnabled}} -->
+  <ion-row>
+    <ion-card color="ennajma">
+      <ion-card-content>
+        <div [dir]="intro$()?.rtl?'rtl':'ltr'" id="tts" [innerHTML]="intro$()?.description"></div>
+
+        <ion-button (click)="start()" fill="clear" *ngIf="!playing"  >
+          <ion-icon slot="icon-only" name="play"></ion-icon>
+        </ion-button>
+        <ion-button (click)="pause()" *ngIf="playing" fill="clear"  >
+          <ion-icon slot="icon-only" name="pause" *ngIf="!paused"></ion-icon>
+          <ion-icon slot="icon-only" name="play"  *ngIf="paused"></ion-icon>
+        </ion-button>
+        <ion-button (click)="cancel()" *ngIf="playing" fill="clear"  >
+          <ion-icon slot="icon-only" name="close-circle"></ion-icon>
+        </ion-button>
+
+      </ion-card-content>
+  </ion-card>
+
+</ion-row>
+
+</ion-content>
+<ion-fab slot="fixed" horizontal="end" vertical="bottom" class="ion-margin">
+  <ion-fab-button (click)="startScanner()" id="open-modal" expand="block">
+    <ion-icon name="qr-code-outline"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+<ion-modal trigger="open-modal" >
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="cancelScan()">Cancel</ion-button>
+        </ion-buttons>
+        <ion-title>QR Scanner</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="confirmScan()" [disabled]="!scanResult" [strong]="true">Confirm</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-item>
+        <app-scanner (scanSuccess)="scanSuccessHandler($event)" *ngIf="ShowScanner"></app-scanner>
+      </ion-item>
+      <ion-item>
+        {{scanResult}}
+      </ion-item>
+    </ion-content>
+  </ng-template>
+</ion-modal>

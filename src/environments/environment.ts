@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiKey: '', // <-- Enter your own key here!'
+  apiUrl: 'https://inventaire.ennejmaezzahra.cmam.tn/api',
+  baseUrl: 'https://inventaire.ennejmaezzahra.cmam.tn/uploads/images/',
+  baseUrlIntro: 'https://inventaire.ennejmaezzahra.cmam.tn/uploads/introennajma/',
+
 };
 
 /*
