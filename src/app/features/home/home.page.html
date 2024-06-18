@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-      <ion-title>{{"Introduction" | translate }}</ion-title>
+      <ion-title>{{"Introduction" | translate}} </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -39,11 +39,11 @@
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-button (click)="cancelScan()">Cancel</ion-button>
+          <ion-button (click)="cancelScan()">{{"Cancel" | translate}}</ion-button>
         </ion-buttons>
         <ion-title>QR Scanner</ion-title>
         <ion-buttons slot="end">
-          <ion-button (click)="confirmScan()" [disabled]="!scanResult" [strong]="true">Confirm</ion-button>
+          <ion-button (click)="confirmScan()" [disabled]="!scanResult" [strong]="true">{{"Confirm"| translate}}</ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>

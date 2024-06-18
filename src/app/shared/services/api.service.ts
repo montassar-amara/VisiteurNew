@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { take } from 'rxjs';
+import { BehaviorSubject, lastValueFrom, take } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Injectable({
@@ -10,21 +10,23 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class ApiService {
   http = inject(HttpClient)
   sanitiser = inject(DomSanitizer)
-  lang$ = signal('fr')
+  lang$ = signal('ar')
   intro$ = signal<any>(undefined)
+  sites$ = new BehaviorSubject<any[]>([])
   getIntro(){
-    this.http.get<any>(environment.apiUrl+'/Introbylang')
+    this.http.get<any>(environment.apiUrl+'/Introbylang?lang='+ this.lang$())
     .pipe(take(1))
     .subscribe((res:{intro:any[],attachement:any[]})=>{
-        const lang = this.lang$()
-        switch(lang){
-          case 'fr':
-            this.intro$.set({attachement:res.attachement.filter(att=>att.langue==='#fr'),description:this.sanitiser.bypassSecurityTrustHtml(res.intro[0].description),shortDesc:res.intro[0].shortdescription,rtl:false});break;
-          case 'ar':res.intro[0].description
-            this.intro$.set({attachement:res.attachement.filter(att=>att.langue==='#ar'),description:this.sanitiser.bypassSecurityTrustHtml(res.intro[0].ar_description),shortDesc:res.intro[0].ar_shortdescription,rtl:true});break;
-            default: // default 'en'res.intro[0].description
-            this.intro$.set({attachement:res.attachement.filter(att=>att.langue==='#an'),description:this.sanitiser.bypassSecurityTrustHtml(res.intro[0].an_description),shortDesc:res.intro[0].an_shortdescription,rtl:false});break;
-        }
+      this.intro$.set({attachement:res.attachement,description:this.sanitiser.bypassSecurityTrustHtml(res.intro[0].description),shortDesc:res.intro[0].shortdescription,rtl:false});
     })
   }
+  // async getSites(){
+  //   if(this.sites$.getValue().length>0){
+  //     return this.sites$
+  //   }else{
+  //     const res = await lastValueFrom(this.getSiteByPager(1,20))
+  //     this.sites$.next(res)
+  //     return this.sites$
+  //   }
+  // }
 }

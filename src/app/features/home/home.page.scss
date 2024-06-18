@@ -1,0 +1,30 @@
+/* Global styles */
+ion-content {
+    --ion-background-color: #f4f4f4; /* Couleur de fond de la page */
+  }
+  
+  /* Toolbar styles */
+  ion-toolbar {
+    --background: #D2B48C; /* Couleur de fond de la barre d'outils */
+    color: #fff; /* Couleur du texte de la barre d'outils */
+  }
+  
+  /* Boutons styles */
+  ion-button {
+    --background: #D2B48C; /* Couleur de fond des boutons */
+    --color: #fff; /* Couleur du texte des boutons */
+  }
+  
+  /* Carte styles */
+  ion-card {
+    --background: #fff; /* Couleur de fond de la carte */
+    --ion-color-base: #fff; /* Couleur du texte de la carte */
+    --ion-color-text: #fff; /* Couleur du texte de la carte */
+  }
+  
+  /* FAB styles */
+  ion-fab-button {
+    --background: #D2B48C; /* Couleur de fond du bouton FAB */
+    --color: #fff; /* Couleur du texte du bouton FAB */
+  }
+  
