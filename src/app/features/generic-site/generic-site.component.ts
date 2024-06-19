@@ -1,8 +1,9 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Component, OnInit } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, Input, OnInit, Signal, effect } from '@angular/core';
 import { IonButton, IonContent } from '@ionic/angular/standalone';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-generic-site',
@@ -14,9 +15,11 @@ import { TranslateModule } from '@ngx-translate/core';
 
 })
 export class GenericSiteComponent  implements OnInit {
-
-  constructor() { }
+  @Input() data!:Signal<any>
+  imagebaseUrl = environment.baseUrlIntro
+  constructor() {
+  }
 
   ngOnInit() {}
-  
+
 }

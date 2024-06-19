@@ -1,12 +1,16 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-      <ion-title>{{"Sites" | translate}} </ion-title>
+      <ion-title>{{data()?.location.name || ''}} </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<swiper-container loop="true" navigation="true">
-  <swiper-slide>Slide 1</swiper-slide>
-  <swiper-slide>Slide 2</swiper-slide>
-  <swiper-slide>Slide 3</swiper-slide>
-  ...
-</swiper-container>
+<ion-content class="ion-padding" [fullscreen]="true">
+  <div [innerHTML]="data()?.location.description"></div>
+  <swiper-container loop="true" navigation="true"  [slidesPerView]="2" [loop]="true">
+    @if(data()?.attachement){
+      <swiper-slide *ngFor="let item of data().attachement">
+        <img [src]="imagebaseUrl+item.link">
+      </swiper-slide>
+    }
+  </swiper-container>
+</ion-content>

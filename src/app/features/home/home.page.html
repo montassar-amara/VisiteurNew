@@ -29,31 +29,7 @@
 
 </ion-content>
 <ion-fab slot="fixed" horizontal="end" vertical="bottom" class="ion-margin">
-  <ion-fab-button (click)="startScanner()" id="open-modal" expand="block">
+  <ion-fab-button (click)="scan()">
     <ion-icon name="qr-code-outline"></ion-icon>
   </ion-fab-button>
 </ion-fab>
-
-<ion-modal trigger="open-modal" >
-  <ng-template>
-    <ion-header>
-      <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-button (click)="cancelScan()">{{"Cancel" | translate}}</ion-button>
-        </ion-buttons>
-        <ion-title>QR Scanner</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="confirmScan()" [disabled]="!scanResult" [strong]="true">{{"Confirm"| translate}}</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding">
-      <ion-item>
-        <app-scanner (scanSuccess)="scanSuccessHandler($event)" *ngIf="ShowScanner"></app-scanner>
-      </ion-item>
-      <ion-item>
-        {{scanResult}}
-      </ion-item>
-    </ion-content>
-  </ng-template>
-</ion-modal>
