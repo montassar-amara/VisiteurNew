@@ -7,6 +7,7 @@ export const environment = {
   apiKey: '', // <-- Enter your own key here!'
   apiUrl: 'https://inventaire.ennejmaezzahra.cmam.tn/api',
   baseUrl: 'https://inventaire.ennejmaezzahra.cmam.tn/uploads/images/',
+  siteurl:'https://inventaire.ennejmaezzahra.cmam.tn/uploads/sites/',
   baseUrlIntro: 'https://inventaire.ennejmaezzahra.cmam.tn/uploads/introennajma/',
 
 };

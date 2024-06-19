@@ -10,9 +10,11 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class ApiService {
   http = inject(HttpClient)
   sanitiser = inject(DomSanitizer)
-  lang$ = signal('ar')
+  lang$ = signal('fr')
+  settings$!:any;
   intro$ = signal<any>(undefined)
-  sites$ = new BehaviorSubject<any[]>([])
+  scanResult = signal<any>(undefined)
+  siteMap = signal<any>(undefined) // {'01':site,...}
   getIntro(){
     this.http.get<any>(environment.apiUrl+'/Introbylang?lang='+ this.lang$())
     .pipe(take(1))
@@ -20,13 +22,34 @@ export class ApiService {
       this.intro$.set({attachement:res.attachement,description:this.sanitiser.bypassSecurityTrustHtml(res.intro[0].description),shortDesc:res.intro[0].shortdescription,rtl:false});
     })
   }
-  // async getSites(){
-  //   if(this.sites$.getValue().length>0){
-  //     return this.sites$
-  //   }else{
-  //     const res = await lastValueFrom(this.getSiteByPager(1,20))
-  //     this.sites$.next(res)
-  //     return this.sites$
-  //   }
-  // }
+  fetchScan(qcode:string){
+    this.http.get<any>(environment.apiUrl+`/getImmoByLang?qcode=${qcode}&lang=${this.lang$()}`).pipe(take(1)).subscribe((res:any)=>{
+      this.scanResult.set(res)
+    })
+  }
+  getMap(){
+    this.http.get<any>(environment.apiUrl+`/Detailobject`).pipe(take(1)).subscribe((res:any)=>{
+      if(res.access){
+        const tmp = [
+          ...res.sites.map((s:any)=>({...s,reference:s.refrence})),
+          ...res.soussites.map((s:any)=>({...s,reference:s.refrence})),
+          ...res.local,
+          ...res.souslocal,
+        ]
+        const transformedObject = tmp.reduce((acc:any, current:any) => {
+          acc[current.reference] = current.name;
+          return acc;
+        }, {});
+      this.siteMap.set(transformedObject)
+      }
+    })
+  }
+  getIntroImages(){
+    return this.http.get<any>(environment.apiUrl+'/Slides')
+  }
+  getSetting() {
+    if(!this.settings$)
+    this.settings$ = this.http.get(`${environment.apiUrl}/AppSetting`)
+    return this.settings$;
+  }
 }

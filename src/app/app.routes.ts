@@ -5,18 +5,31 @@ export const routes: Routes = [
     path: 'home',
     loadComponent: () => import('./features/home/home.page').then( m => m.HomePage)
   },
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full',
-  },
+
   {
     path: 'site',
-    loadComponent: () => import('./features/generic-site/generic-site.component').then( m => m.GenericSiteComponent)
+    loadComponent: () => import('./features/site/site.page').then( m => m.SitePage)
+  },
+  {
+    path: 'intro',
+    loadComponent: () => import('./features/intro/intro.page').then( m => m.IntroPage)
+  },
+  {
+    path: 'soussite',
+    loadComponent: () => import('./features/soussite/soussite.page').then( m => m.SoussitePage)
+  },
+  {
+    path: 'local',
+    loadComponent: () => import('./features/local/local.page').then( m => m.LocalPage)
+  },
+  {
+    path: 'souslocal',
+    loadComponent: () => import('./features/souslocal/souslocal.page').then( m => m.SouslocalPage)
   },
   {
     path: '',
-    redirectTo: 'site',
+    redirectTo: 'intro',
     pathMatch: 'full',
   },
+
 ];

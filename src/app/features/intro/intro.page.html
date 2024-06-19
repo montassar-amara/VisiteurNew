@@ -1,0 +1,22 @@
+<ion-content class="pos-rel">
+  <img [src]="'../../../assets/cover.jpg'" class="image">
+  <div class="overlay"></div>
+
+  <span class="pos-abs">
+      <div style="text-align:center;">
+          <ion-button color="ennajma" expand="block" (click)="setLanguage('en')">
+              <ion-text class="text-welcome" color="light">English</ion-text>
+          </ion-button>
+      </div>
+      <div style="text-align:center;">
+          <ion-button color="ennajma" expand="block" (click)="setLanguage('fr')">
+              <ion-text class="text-welcome" color="light">Français</ion-text>
+          </ion-button>
+      </div>
+      <div style="text-align:center;">
+          <ion-button color="ennajma" expand="block" (click)="setLanguage('ar')">
+              <ion-text class="text-welcome" color="light">العربية</ion-text>
+          </ion-button>
+      </div>
+  </span>
+</ion-content>
