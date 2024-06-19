@@ -30,7 +30,8 @@ export class SoussitePage implements OnInit {
       rawData.location['shortdescription']=rawData.soussite[0]['anshortdescription']
       rawData.location.name = rawData.soussite[0].ansite
     }
-
+    rawData.childname="local"
+    rawData.enfants=rawData.local
     return rawData
   })
 

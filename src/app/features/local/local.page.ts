@@ -28,7 +28,8 @@ export class LocalPage implements OnInit {
       rawData.location['shortdescription']=rawData.local[0]['an_short']
       rawData.location.name = rawData.local[0].an_name
     }
-
+    rawData.childname="sous local"
+    rawData.enfants=rawData.souslocal
     return rawData
   })
   constructor(private apiService: ApiService) { }

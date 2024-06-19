@@ -66,6 +66,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.#apiService.getIntro()
+    this.#apiService.getMap()
     this.translate.setDefaultLang('fr')
 
   }
@@ -111,9 +112,12 @@ export class HomePage implements OnInit {
     BarcodeScanner.addListener("googleBarcodeScannerModuleInstallProgress",async(res)=>{
         if(res.state===GoogleBarcodeScannerModuleInstallState.COMPLETED && res.progress===100){
           const {barcodes} = await BarcodeScanner.scan();
-          this.#apiService.fetchScan(barcodes[0].displayValue)
-          BarcodeScanner.removeAllListeners()
-          BarcodeScanner.stopScan()
+          console.log(this.siteMap())
+          if(this.siteMap()[barcodes[0].displayValue]){
+            this.#apiService.fetchScan(barcodes[0].displayValue)
+            BarcodeScanner.removeAllListeners()
+            BarcodeScanner.stopScan()
+          }
         }
     })
     if(!available){
@@ -121,8 +125,12 @@ export class HomePage implements OnInit {
 
     }else{
       const {barcodes} = await BarcodeScanner.scan();
-      this.#apiService.fetchScan(barcodes[0].displayValue)
-      BarcodeScanner.stopScan()
+      console.log(this.siteMap())
+      if(this.siteMap()[barcodes[0].displayValue]){
+        this.#apiService.fetchScan(barcodes[0].displayValue)
+        BarcodeScanner.removeAllListeners()
+        BarcodeScanner.stopScan()
+      }
     }
 
 

@@ -6,11 +6,22 @@
 
 <ion-content class="ion-padding" [fullscreen]="true">
   <div [innerHTML]="data()?.location.description"></div>
-  <swiper-container loop="true" navigation="true"  [slidesPerView]="2" [loop]="true">
-    @if(data()?.attachement){
+  @if(data()?.attachement){
+  <h3>{{'Gallery' | translate}}</h3>
+  <swiper-container loop="true" navigation="true"  [slidesPerView]="1" [loop]="true">
       <swiper-slide *ngFor="let item of data().attachement">
-        <img [src]="imagebaseUrl+item.link">
+        <p-image [src]="imagebaseUrl+item.link" alt="Image" width="300" />
       </swiper-slide>
-    }
-  </swiper-container>
+    </swiper-container>
+  }
+  @if(data()?.enfants){
+  <h3>{{data()?.childname | translate}}</h3>
+  <swiper-container loop="true" navigation="true"  [slidesPerView]="1" [loop]="true">
+      <swiper-slide *ngFor="let item of data().enfants">
+        <h3>{{item.name}}</h3>
+        <img [src]="imagebaseUrl+item.link">
+
+      </swiper-slide>
+    </swiper-container>
+  }
 </ion-content>

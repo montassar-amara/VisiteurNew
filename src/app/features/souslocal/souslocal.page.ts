@@ -30,7 +30,7 @@ export class SouslocalPage implements OnInit {
       rawData.location['shortdescription']=rawData.souslocal[0]['an_short']
       rawData.location.name = rawData.souslocal[0].an_name
     }
-
+    rawData.childname="objet"
     return rawData
   })
   constructor(private apiService: ApiService) { }
