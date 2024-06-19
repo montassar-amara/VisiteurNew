@@ -2,7 +2,7 @@
   "name": "Venus",
   "version": "0.0.1",
   "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "homepage": "https://www.cmam.tn/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -14,9 +14,10 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^18.0.0",
+    "@angular/cli": "^17.3.8",
     "@angular/common": "^18.0.0",
     "@angular/compiler": "^18.0.0",
-    "@angular/core": "^18.0.3",
+    "@angular/core": "^17.3.11",
     "@angular/forms": "^18.0.0",
     "@angular/platform-browser": "^18.0.0",
     "@angular/platform-browser-dynamic": "^18.0.0",
@@ -31,7 +32,7 @@
     "@capacitor/keyboard": "6.0.0",
     "@capacitor/status-bar": "6.0.0",
     "@ionic/angular": "^8.2.2",
-    "@ionic/angular": "^8.2.2",
+    "@ngtools/webpack": "^18.0.4",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "ionicons": "^7.2.1",
@@ -48,7 +49,6 @@
     "@angular-eslint/eslint-plugin-template": "^17.0.0",
     "@angular-eslint/schematics": "^17.0.0",
     "@angular-eslint/template-parser": "^17.0.0",
-    "@angular/cli": "^17.0.0",
     "@angular/compiler-cli": "^17.0.2",
     "@angular/language-service": "^17.0.2",
     "@capacitor/cli": "6.1.0",
@@ -67,7 +67,10 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.2.2"
+    "typescript": "~5.2.2",
+    "webpack": "^5.92.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-middleware": "^7.2.1"
   },
   "description": "An Ionic project",
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
