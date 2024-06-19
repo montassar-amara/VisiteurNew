@@ -4,13 +4,13 @@ import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
-
+import { ImageModule } from 'primeng/image';
 @Component({
   selector: 'app-generic-site',
   templateUrl: './generic-site.component.html',
   styleUrls: ['./generic-site.component.scss'],
   standalone: true,
-  imports: [IonButton, IonContent, IonicModule, CommonModule,TranslateModule],
+  imports: [IonButton, IonContent, IonicModule, CommonModule,TranslateModule, ImageModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
 })

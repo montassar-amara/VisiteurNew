@@ -28,7 +28,8 @@ export class SitePage implements OnInit {
       rawData.location['shortdescription']=rawData.site[0]['anshortdescription']
       rawData.location.name = rawData.site[0].ansite
     }
-
+    rawData.childname="sous site"
+    rawData.enfants=rawData.soussite
     return rawData
   })
 
