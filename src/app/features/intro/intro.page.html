@@ -1,6 +1,6 @@
 <ion-content class="pos-rel">
 
-  <swiper-container #swiper loop="true" navigation="true"  [slidesPerView]="2" [loop]="true">
+  <swiper-container #swiper navigation="true" [slidesPerView]="2" [loop]="true">
     <swiper-slide *ngFor="let item of imagesIntro.slides">
       <ion-img [src]="imagesIntro.folder+item.link" class="image"></ion-img>
     </swiper-slide>

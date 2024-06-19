@@ -38,17 +38,19 @@ export class IntroPage implements OnInit {
 
   ngOnInit() {
     this.loadSetting();
-    this.startAnimation();
+
     // this.ApiService.getIntro().subscribe(console.log)
   }
   async loadSetting(event?: any) {
     const loading = await this.loadingCtrl.create({
-            message: 'Loading..',
-            spinner: 'bubbles',
-          });
-          await loading.present();
+      message: 'Loading..',
+      spinner: 'bubbles',
+      });
+      await loading.present();
     this.ApiService.getIntroImages().subscribe(res=>{
       this.imagesIntro = res;
+      this.startAnimation();
+      console.log(res)
     })
     this.ApiService.getSetting().subscribe(
       (res:any) => {
