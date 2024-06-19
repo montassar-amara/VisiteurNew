@@ -7,6 +7,7 @@ import { ApiService } from 'src/app/shared/services/api.service';
 import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import Swiper from 'swiper';
 @Component({
   selector: 'app-intro',
   templateUrl: './intro.page.html',
@@ -49,7 +50,6 @@ export class IntroPage implements OnInit {
       await loading.present();
     this.ApiService.getIntroImages().subscribe(res=>{
       this.imagesIntro = res;
-      this.startAnimation();
       console.log(res)
     })
     this.ApiService.getSetting().subscribe(
@@ -72,9 +72,7 @@ export class IntroPage implements OnInit {
     this.ApiService.lang$.set(lang)
     this.router.navigate(['home'])
    }
-   startAnimation() {
-    this.swiperRef?.nativeElement.swiper.startAutoplay()
-  }
+
 
 
 }
