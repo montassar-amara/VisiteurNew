@@ -25,7 +25,7 @@ export class IntroPage implements OnInit {
   }={
     slides:[],folder:''
   }
-  @ViewChild('swiper-container') swiper!: any;
+  @ViewChild('swiper') swiperRef!: any;
 
  animationInProgress = false;
   config = {
@@ -71,17 +71,8 @@ export class IntroPage implements OnInit {
     this.router.navigate(['home'])
    }
    startAnimation() {
-    if(this.animationInProgress) return;
-    this.animationInProgress = true;
-    setTimeout(() => {
-      this.swiper.swiperRef.slideNext(2000);
-      this.animationInProgress = false;
-      this.startAnimation();
-    }, 5000);
+    this.swiperRef?.nativeElement.swiper.startAutoplay()
   }
 
-  next() {
-    this.swiper.swiperRef.slideNext(1000);
-  }
 
 }
