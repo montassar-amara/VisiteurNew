@@ -51,6 +51,10 @@ export class HomePage implements OnInit {
           this.#router.navigate(['site'])
         }else if(res.soussite){
           this.#router.navigate(['soussite'])
+        }else if(res.local){
+          this.#router.navigate(['local'])
+        }else if(res.souslocal){
+          this.#router.navigate(['souslocal'])
         }else{
           console.log(res)
         }
