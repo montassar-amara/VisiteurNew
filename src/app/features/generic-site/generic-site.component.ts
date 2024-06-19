@@ -16,7 +16,7 @@ import { environment } from 'src/environments/environment';
 })
 export class GenericSiteComponent  implements OnInit {
   @Input() data!:Signal<any>
-  imagebaseUrl = environment.baseUrlIntro
+  imagebaseUrl = environment.siteurl
   constructor() {
   }
 
