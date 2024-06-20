@@ -18,8 +18,8 @@ export class ApiService {
   getIntro(){
     this.http.get<any>(environment.apiUrl+'/Introbylang?lang='+ this.lang$())
     .pipe(take(1))
-    .subscribe((res:{intro:any[],attachement:any[]})=>{
-      this.intro$.set({attachement:res.attachement,description:this.sanitiser.bypassSecurityTrustHtml(res.intro[0].description),shortDesc:res.intro[0].shortdescription,rtl:false});
+    .subscribe((res:{intro:any[],attachement:any[],attachement_audio:any[]})=>{
+      this.intro$.set({attachement_audio:res.attachement_audio,attachement:res.attachement,description:this.sanitiser.bypassSecurityTrustHtml(res.intro[0].description),shortDesc:res.intro[0].shortdescription,rtl:false});
     })
   }
   fetchScan(qcode:string){

@@ -1,4 +1,4 @@
-import { Component, OnInit, effect, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from 'src/app/shared/services/api.service';
@@ -29,20 +29,15 @@ import {Html5QrcodeScanner} from "html5-qrcode";
     FileTypePipe, TranslateModule],
 })
 
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnDestroy {
   #apiService = inject(ApiService)
   #router = inject(Router)
   intro$ = this.#apiService.intro$
-  imagebaseUrl = environment.baseUrlIntro
+  imagebaseUrl = environment.audioconverted
   siteMap = this.#apiService.siteMap
   playing = false
   paused = false
-  scanResult=""
-  isSupported = false;
-  barcodes: Barcode[] = [];
-  ShowScanner=false
   lang = this.#apiService.lang$;
-
   constructor( public translate: TranslateService,private alertController: AlertController) {
     effect(()=>{
       const res = this.#apiService.scanResult()
@@ -161,6 +156,14 @@ export class HomePage implements OnInit {
   back(){
     this.intro$.set(undefined)
     this.#apiService.scanResult.set(undefined)
-    this.#router.navigate(['intro'])
+    this.#router.navigate(['home'])
+  }
+  ngOnDestroy(): void {
+    TextToSpeech.stop()
+    const audio = (document.getElementById('audio') as HTMLAudioElement)
+    if(audio){
+      audio.currentTime=0
+      audio.pause()
+    }
   }
 }

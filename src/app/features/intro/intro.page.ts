@@ -69,7 +69,7 @@ export class IntroPage implements OnInit {
   setLanguage(lang:string){
     this.translationconfig.use(lang);
     this.ApiService.lang$.set(lang)
-    this.router.navigate(['home'])
+    this.router.navigate(['intro'])
    }
 
 

@@ -11,7 +11,7 @@ export const environment = {
   localurl:'https://inventaire.ennejmaezzahra.cmam.tn/uploads/etages/',
   baseUrlIntro: 'https://inventaire.ennejmaezzahra.cmam.tn/uploads/introennajma/',
   immourl: 'https://inventaire.ennejmaezzahra.cmam.tn/uploads/immobilisation/',
-
+  audioconverted: 'https://inventaire.ennejmaezzahra.cmam.tn/uploads/audioconverted/',
 };
 
 /*

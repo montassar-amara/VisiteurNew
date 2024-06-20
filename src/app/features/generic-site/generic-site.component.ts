@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Component, EventEmitter, Input, OnInit, Output, Signal } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, EventEmitter, Input, OnDestroy, OnInit, Output, Signal } from '@angular/core';
 import { IonButton, IonContent,IonButtons,IonCard,IonCardHeader,IonCardTitle } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -15,13 +15,16 @@ import { TextToSpeech } from '@capacitor-community/text-to-speech';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
 })
-export class GenericSiteComponent  implements OnInit {
+export class GenericSiteComponent implements OnInit, OnDestroy{
   @Input() data!:Signal<any>
   @Output() request = new EventEmitter<any>()
   lang = this.apiService.lang$
   playing = false
   paused = false
   constructor(private apiService:ApiService) {
+  }
+  ngOnDestroy(): void {
+    TextToSpeech.stop()
   }
 
   ngOnInit() {}
