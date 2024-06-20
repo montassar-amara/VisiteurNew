@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package tn.cmam.visite;
 
 import com.getcapacitor.BridgeActivity;
 

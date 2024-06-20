@@ -1,10 +1,11 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Component, EventEmitter, Input, OnDestroy, OnInit, Output, Signal } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, Signal, ViewChild } from '@angular/core';
 import { IonButton, IonContent,IonButtons,IonCard,IonCardHeader,IonCardTitle } from '@ionic/angular/standalone';
 import { CommonModule,Location } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { ImageModule } from 'primeng/image';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { TextToSpeech } from '@capacitor-community/text-to-speech';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-generic-site',
@@ -21,7 +22,8 @@ export class GenericSiteComponent implements OnInit, OnDestroy{
   lang = this.apiService.lang$
   playing = false
   paused = false
-
+  imgUrl = environment.immourl
+  @ViewChild('swiper') swiperRef: ElementRef | undefined;
   constructor(private apiService:ApiService,private location:Location) {
   }
   ngOnDestroy(): void {
@@ -30,6 +32,7 @@ export class GenericSiteComponent implements OnInit, OnDestroy{
 
   ngOnInit() {}
   loadLocation(item:any){
+    TextToSpeech.stop()
     this.request.emit(item)
   }
   back(){
@@ -40,8 +43,7 @@ export class GenericSiteComponent implements OnInit, OnDestroy{
     TextToSpeech.stop()
   }
   start(tts:any){
-    console.log(tts)
-    const html = document.getElementById('tts') as HTMLElement
+    const html = tts as HTMLElement
     const text = html.textContent || html.innerText || ""
     const lang = this.apiService.lang$()
     TextToSpeech.speak({
@@ -58,5 +60,11 @@ export class GenericSiteComponent implements OnInit, OnDestroy{
   }
   pause(tts:any) {
 
-}
+  }
+  handlePager(eve:any){
+    const tmp = this.swiperRef?.nativeElement?.swiper.activeIndex
+    if(tmp%10===7){
+      this.apiService.loadMore(Math.ceil(tmp/10))
+    }
+  }
 }

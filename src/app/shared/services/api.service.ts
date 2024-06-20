@@ -18,6 +18,7 @@ export class ApiService {
   sousSiteData = signal<any>(undefined)
   localData = signal<any>(undefined)
   sousLocalData = signal<any>(undefined)
+  lastRequest = signal<any>(undefined)
   siteMap = signal<any>(undefined) // {'01':site,...}
   getIntro(){
     this.http.get<any>(environment.apiUrl+'/Introbylang?lang='+ this.lang$())
@@ -29,6 +30,7 @@ export class ApiService {
   fetchScan(qcode:string){
     this.http.get<any>(environment.apiUrl+`/getImmoByLang?qcode=${qcode}&lang=${this.lang$()}`).pipe(take(1)).subscribe((res:any)=>{
       this.scanResult.set(res)
+      this.lastRequest.set(qcode)
     })
   }
   getMap(){
@@ -55,5 +57,14 @@ export class ApiService {
     if(!this.settings$)
     this.settings$ = this.http.get(`${environment.apiUrl}/AppSetting`)
     return this.settings$;
+  }
+  loadMore(page:number){
+    this.http.get<any>(environment.apiUrl+`/getImmoByLang?qcode=${this.lastRequest()}&lang=${this.lang$()}&page=${page}`).pipe(take(1)).subscribe((res:any)=>{
+      const tmp = this.scanResult()
+      this.scanResult.set({
+        ...tmp,
+        immo:[...tmp.immo,...res.immo]
+      })
+    })
   }
 }
