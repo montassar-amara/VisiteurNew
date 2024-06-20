@@ -5,4 +5,6 @@ export const environment = {
   baseUrl: 'https://inventaire.ennejmaezzahra.cmam.tn/uploads/images/',
   baseUrlIntro: 'https://inventaire.ennejmaezzahra.cmam.tn/uploads/introennajma/',
   siteurl:'https://inventaire.ennejmaezzahra.cmam.tn/uploads/sites/',
+  localurl:'https://inventaire.ennejmaezzahra.cmam.tn/uploads/etages/',
+  immourl: 'https://inventaire.ennejmaezzahra.cmam.tn/uploads/immobilisation/',
 };

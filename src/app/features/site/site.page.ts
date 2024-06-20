@@ -2,6 +2,7 @@ import { Component, OnInit, Signal, computed, effect, signal } from '@angular/co
 import { CommonModule } from '@angular/common';
 import { GenericSiteComponent } from '../generic-site/generic-site.component';
 import { ApiService } from 'src/app/shared/services/api.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-site',
@@ -13,6 +14,9 @@ import { ApiService } from 'src/app/shared/services/api.service';
 export class SitePage implements OnInit {
   data = computed<any>(()=>{
     const rawData = this.apiService.scanResult()
+    if(!rawData || !rawData.site || !rawData.site.length){
+      return rawData;
+    }
     rawData.location = {description:"",shortdescription:"",name:""}
     const lang = this.apiService.lang$()
     if(lang==='ar'){
@@ -29,7 +33,16 @@ export class SitePage implements OnInit {
       rawData.location.name = rawData.site[0].ansite
     }
     rawData.childname="sous site"
-    rawData.enfants=rawData.soussite
+    rawData.enfants=rawData.soussite.map((ss:any)=>{
+      return ({
+        ...ss,
+        cover:ss.image_cover?(environment.siteurl+ss.image_cover):'../../../assets/placeholder.png',
+        name:(lang==='fr')?ss.name:((lang==='ar'?ss.arsite:(ss.ansite)) ?? ss.name)
+      })
+    })
+    rawData.attachement.map((att:any,index:number)=>{
+      rawData.attachement[index].cover = att.link?(environment.siteurl+att.link):'../../../assets/placeholder.png'
+    })
     return rawData
   })
 
@@ -37,6 +50,9 @@ export class SitePage implements OnInit {
    }
 
   ngOnInit() {
+  }
+  handleRequest(item:any){
+    this.apiService.fetchScan(item.refrence)
   }
 
 }

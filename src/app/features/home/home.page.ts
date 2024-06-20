@@ -42,6 +42,7 @@ export class HomePage implements OnInit {
   isSupported = false;
   barcodes: Barcode[] = [];
   ShowScanner=false
+  lang = this.#apiService.lang$;
 
   constructor( public translate: TranslateService,private alertController: AlertController) {
     effect(()=>{
@@ -65,9 +66,9 @@ export class HomePage implements OnInit {
 
 
   ngOnInit() {
+    this.#apiService.scanResult.set(undefined)
     this.#apiService.getIntro()
     this.#apiService.getMap()
-    this.translate.setDefaultLang('fr')
 
   }
   cancel(){
@@ -146,5 +147,10 @@ export class HomePage implements OnInit {
       buttons: ['OK'],
     });
     await alert.present();
+  }
+  back(){
+    this.intro$.set(undefined)
+    this.#apiService.scanResult.set(undefined)
+    this.#router.navigate(['intro'])
   }
 }

@@ -1,27 +1,40 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-      <ion-title>{{data()?.location.name || ''}} </ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="back()">
+        <ion-icon slot="icon-only" [ios]="lang()==='ar'?'caret-forward':'caret-back'" [md]="lang()==='ar'?'caret-forward':'caret-back'"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+      <ion-title [innerHTML]="data()?.location.name || ''"> </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding" [fullscreen]="true">
   <div [innerHTML]="data()?.location.description"></div>
-  @if(data()?.attachement){
+  @if(data()?.attachement  && data()?.attachement.length){
   <h3>{{'Gallery' | translate}}</h3>
   <swiper-container loop="true" navigation="true"  [slidesPerView]="1" [loop]="true">
       <swiper-slide *ngFor="let item of data().attachement">
-        <p-image [src]="imagebaseUrl+item.link" alt="Image" width="300" />
+        <ion-card>
+          <p-image [src]="item.cover" alt="Image" width="300" height="250"/>
+          <ion-card-header>
+          </ion-card-header>
+        </ion-card>
       </swiper-slide>
     </swiper-container>
   }
-  @if(data()?.enfants){
+  @if(data()?.enfants && data()?.enfants.length){
   <h3>{{data()?.childname | translate}}</h3>
   <swiper-container loop="true" navigation="true"  [slidesPerView]="1" [loop]="true">
       <swiper-slide *ngFor="let item of data().enfants">
-        <h3>{{item.name}}</h3>
-        <img [src]="imagebaseUrl+item.link">
-
+        <ion-card (click)="loadLocation(item)">
+          <p-image [src]="item.cover" alt="Image" width="300" height="250" />
+          <ion-card-header>
+            <ion-card-title [innerHTML]="item.name"></ion-card-title>
+          </ion-card-header>
+        </ion-card>
       </swiper-slide>
+
     </swiper-container>
   }
 </ion-content>

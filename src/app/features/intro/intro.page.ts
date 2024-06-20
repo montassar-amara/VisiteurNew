@@ -38,9 +38,8 @@ export class IntroPage implements OnInit {
   constructor(private ApiService: ApiService, private loadingCtrl: LoadingController,private router: Router,private translationconfig: TranslateService) { }
 
   ngOnInit() {
+    this.ApiService.intro$.set(undefined)
     this.loadSetting();
-
-    // this.ApiService.getIntro().subscribe(console.log)
   }
   async loadSetting(event?: any) {
     const loading = await this.loadingCtrl.create({

@@ -8,7 +8,9 @@ export const environment = {
   apiUrl: 'https://inventaire.ennejmaezzahra.cmam.tn/api',
   baseUrl: 'https://inventaire.ennejmaezzahra.cmam.tn/uploads/images/',
   siteurl:'https://inventaire.ennejmaezzahra.cmam.tn/uploads/sites/',
+  localurl:'https://inventaire.ennejmaezzahra.cmam.tn/uploads/etages/',
   baseUrlIntro: 'https://inventaire.ennejmaezzahra.cmam.tn/uploads/introennajma/',
+  immourl: 'https://inventaire.ennejmaezzahra.cmam.tn/uploads/immobilisation/',
 
 };
 

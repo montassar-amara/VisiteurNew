@@ -2,6 +2,7 @@ import { Component, OnInit, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GenericSiteComponent } from '../generic-site/generic-site.component';
 import { ApiService } from 'src/app/shared/services/api.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-local',
@@ -13,6 +14,9 @@ import { ApiService } from 'src/app/shared/services/api.service';
 export class LocalPage implements OnInit {
   data = computed<any>(()=>{
     const rawData = this.apiService.scanResult()
+    if(!rawData || !rawData.local || !rawData.local.length){
+      return rawData;
+    }
     rawData.location = {description:"",shortdescription:"",name:""}
     const lang = this.apiService.lang$()
     if(lang==='ar'){
@@ -29,12 +33,24 @@ export class LocalPage implements OnInit {
       rawData.location.name = rawData.local[0].an_name
     }
     rawData.childname="sous local"
-    rawData.enfants=rawData.souslocal
+    rawData.enfants=rawData.souslocal.map((ss:any)=>{
+      return ({
+        ...ss,
+        cover:ss.image_cover?(environment.localurl+ss.image_cover):'../../../assets/placeholder.png',
+        name:(lang==='fr')?ss.name:((lang==='ar'?ss.ar_name:ss.an_name) ?? ss.name)
+      })
+    })
+    rawData.attachement.map((att:any,index:number)=>{
+      rawData.attachement[index].cover = att.link?(environment.localurl+att.link):'../../../assets/placeholder.png'
+    })
     return rawData
   })
   constructor(private apiService: ApiService) { }
 
   ngOnInit() {
+  }
+  handleRequest(item:any){
+    this.apiService.fetchScan(item.reference)
   }
 
 }
