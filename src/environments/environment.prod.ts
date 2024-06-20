@@ -7,4 +7,5 @@ export const environment = {
   siteurl:'https://inventaire.ennejmaezzahra.cmam.tn/uploads/sites/',
   localurl:'https://inventaire.ennejmaezzahra.cmam.tn/uploads/etages/',
   immourl: 'https://inventaire.ennejmaezzahra.cmam.tn/uploads/immobilisation/',
+  audioconverted: 'https://inventaire.ennejmaezzahra.cmam.tn/uploads/audioconverted/',
 };
