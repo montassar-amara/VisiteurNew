@@ -17,21 +17,20 @@
         <div [dir]="intro$()?.rtl?'rtl':'ltr'" id="tts" [innerHTML]="intro$()?.description"></div>
 
         @if(intro$() && intro$().attachement_audio && intro$().attachement_audio.length){
-          <audio controls id="audio">
+          <audio controls id="audio" hidden>
             <source [src]="imagebaseUrl+intro$().attachement_audio[0].link" type="audio/mp3">
           </audio>
-        }@else{
-          <ion-button (click)="start()" fill="clear" *ngIf="!playing"  >
-            <ion-icon slot="icon-only" name="play"></ion-icon>
-          </ion-button>
-          <ion-button (click)="pause()" *ngIf="playing" fill="clear"  >
-            <ion-icon slot="icon-only" name="pause" *ngIf="!paused"></ion-icon>
-            <ion-icon slot="icon-only" name="play"  *ngIf="paused"></ion-icon>
-          </ion-button>
-          <ion-button (click)="cancel()" *ngIf="playing" fill="clear"  >
-            <ion-icon slot="icon-only" name="close-circle"></ion-icon>
-          </ion-button>
         }
+        <ion-button (click)="start()" fill="clear" *ngIf="!playing"  >
+          <ion-icon slot="icon-only" name="play"></ion-icon>
+        </ion-button>
+        <ion-button (click)="pause()" *ngIf="playing" fill="clear"  >
+          <ion-icon slot="icon-only" name="pause" *ngIf="!paused"></ion-icon>
+          <ion-icon slot="icon-only" name="play"  *ngIf="paused"></ion-icon>
+        </ion-button>
+        <ion-button (click)="cancel()" *ngIf="playing" fill="clear"  >
+          <ion-icon slot="icon-only" name="close-circle"></ion-icon>
+        </ion-button>
 
       </ion-card-content>
   </ion-card>

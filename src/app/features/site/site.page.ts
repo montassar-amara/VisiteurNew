@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
 })
 export class SitePage implements OnInit {
   data = computed<any>(()=>{
-    const rawData = this.apiService.scanResult()
+    const rawData = this.apiService.siteData()
     if(!rawData || !rawData.site || !rawData.site.length){
       return rawData;
     }

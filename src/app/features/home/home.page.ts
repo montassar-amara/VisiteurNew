@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from 'src/app/shared/services/api.service';
@@ -13,7 +13,7 @@ import { FileTypePipe } from 'src/app/shared/pipes/file-type.pipe';
 import { TextToSpeech } from '@capacitor-community/text-to-speech';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AlertController } from '@ionic/angular';
-import { Barcode, BarcodeScanner, GoogleBarcodeScannerModuleInstallState } from '@capacitor-mlkit/barcode-scanning';
+import { BarcodeScanner, GoogleBarcodeScannerModuleInstallState } from '@capacitor-mlkit/barcode-scanning';
 import { Router } from '@angular/router';
 import {Html5QrcodeScanner} from "html5-qrcode";
 @Component({
@@ -27,6 +27,7 @@ import {Html5QrcodeScanner} from "html5-qrcode";
     IonRow,IonCol,IonImg,IonCard,IonButton,IonItem,IonCardContent,
     CommonModule, FormsModule,
     FileTypePipe, TranslateModule],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class HomePage implements OnInit, OnDestroy {
@@ -38,23 +39,27 @@ export class HomePage implements OnInit, OnDestroy {
   playing = false
   paused = false
   lang = this.#apiService.lang$;
-  constructor( public translate: TranslateService,private alertController: AlertController) {
-    effect(()=>{
-      const res = this.#apiService.scanResult()
-      if(res){
-        if(res.site){
-          this.#router.navigate(['site'])
-        }else if(res.soussite){
-          this.#router.navigate(['soussite'])
-        }else if(res.local){
-          this.#router.navigate(['local'])
-        }else if(res.souslocal){
-          this.#router.navigate(['souslocal'])
-        }else{
-          console.log(res)
-        }
+  eff = effect(()=>{
+    const res = this.#apiService.scanResult()
+    if(res){
+      if(res.site){
+        this.#apiService.siteData.set(res)
+        this.#router.navigate(['site'])
+      }else if(res.soussite){
+        this.#apiService.sousSiteData.set(res)
+        this.#router.navigate(['soussite'])
+      }else if(res.local){
+        this.#apiService.localData.set(res)
+        this.#router.navigate(['local'])
+      }else if(res.souslocal){
+        this.#apiService.sousLocalData.set(res)
+        this.#router.navigate(['souslocal'])
+      }else{
+        console.log(res)
       }
-    })
+    }
+  },{allowSignalWrites:true})
+  constructor( public translate: TranslateService,private alertController: AlertController) {
   }
 
 
@@ -67,32 +72,61 @@ export class HomePage implements OnInit, OnDestroy {
   }
   cancel(){
     this.playing = false;
-    TextToSpeech.stop()
+    const audio = (document.getElementById('audio') as HTMLAudioElement)
+    if(audio){
+      audio.currentTime=0
+      audio.pause()
+    }
+    const html = document.getElementById('tts') as HTMLElement
+     if(html){
+      const text = html.textContent || html.innerText || ""
+      const lang = this.#apiService.lang$()
+      TextToSpeech.speak({
+        text,
+        lang: lang==='fr'?'fr':(lang==='ar'?'ar':'en-US'),
+        rate: 1.0,
+        pitch: 1.0,
+        volume: 1.0,
+        category: 'ambient',
+
+      })
+      this.playing = true;
+     }
   }
   start(){
-    const html = document.getElementById('tts') as HTMLElement
-    const text = html.textContent || html.innerText || ""
-    const lang = this.#apiService.lang$()
-    TextToSpeech.speak({
-      text,
-      lang: lang==='fr'?'fr':(lang==='ar'?'ar':'en-US'),
-      rate: 1.0,
-      pitch: 1.0,
-      volume: 1.0,
-      category: 'ambient',
-    })
+    if(this.intro$() && this.intro$()?.attachement_audio && this.intro$()?.attachement_audio?.length){
+      const audio = (document.getElementById('audio') as HTMLAudioElement)
+      if(audio){
+        audio.play()
+      }
+    }else{
+      const html = document.getElementById('tts') as HTMLElement
+      const text = html.textContent || html.innerText || ""
+      const lang = this.#apiService.lang$()
+      TextToSpeech.speak({
+        text,
+        lang: lang==='fr'?'fr':(lang==='ar'?'ar':'en-US'),
+        rate: 1.0,
+        pitch: 1.0,
+        volume: 1.0,
+        category: 'ambient',
+      })
+    }
     // the player will start immediatly, and resolve when it ends, so .then => done speaking
 
     this.playing = true;
   }
   pause() {
-    if (speechSynthesis.speaking && !speechSynthesis.paused) {
-        speechSynthesis.pause();
-        this.paused = true;
-        TextToSpeech.stop()
-    } else {
-        speechSynthesis.resume();
-        TextToSpeech.speak
+    const audio = (document.getElementById('audio') as HTMLAudioElement)
+
+    if(audio && (audio.paused || audio.played)){
+        if(audio.paused){
+          audio.play()
+        }else{
+          audio.pause()
+        }
+    }else{
+      TextToSpeech.stop()
     }
 }
   async scan(): Promise<void> {
@@ -159,11 +193,8 @@ export class HomePage implements OnInit, OnDestroy {
     this.#router.navigate(['home'])
   }
   ngOnDestroy(): void {
+
     TextToSpeech.stop()
-    const audio = (document.getElementById('audio') as HTMLAudioElement)
-    if(audio){
-      audio.currentTime=0
-      audio.pause()
-    }
+    this.cancel()
   }
 }

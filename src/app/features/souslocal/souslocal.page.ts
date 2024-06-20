@@ -15,7 +15,7 @@ import { environment } from 'src/environments/environment';
 })
 export class SouslocalPage implements OnInit {
   data = computed<any>(()=>{
-    const rawData = this.apiService.scanResult()
+    const rawData = this.apiService.sousLocalData ()
     if(!rawData || !rawData.souslocal || !rawData.souslocal.length){
       return rawData;
     }

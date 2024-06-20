@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Component, EventEmitter, Input, OnDestroy, OnInit, Output, Signal } from '@angular/core';
 import { IonButton, IonContent,IonButtons,IonCard,IonCardHeader,IonCardTitle } from '@ionic/angular/standalone';
-import { CommonModule } from '@angular/common';
+import { CommonModule,Location } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { ImageModule } from 'primeng/image';
 import { ApiService } from 'src/app/shared/services/api.service';
@@ -21,7 +21,8 @@ export class GenericSiteComponent implements OnInit, OnDestroy{
   lang = this.apiService.lang$
   playing = false
   paused = false
-  constructor(private apiService:ApiService) {
+
+  constructor(private apiService:ApiService,private location:Location) {
   }
   ngOnDestroy(): void {
     TextToSpeech.stop()
@@ -32,13 +33,14 @@ export class GenericSiteComponent implements OnInit, OnDestroy{
     this.request.emit(item)
   }
   back(){
-    history.back()
+    this.location.back()
   }
-  cancel(){
+  cancel(tts:any){
     this.playing = false;
     TextToSpeech.stop()
   }
-  start(){
+  start(tts:any){
+    console.log(tts)
     const html = document.getElementById('tts') as HTMLElement
     const text = html.textContent || html.innerText || ""
     const lang = this.apiService.lang$()
@@ -54,14 +56,7 @@ export class GenericSiteComponent implements OnInit, OnDestroy{
 
     this.playing = true;
   }
-  pause() {
-    if (speechSynthesis.speaking && !speechSynthesis.paused) {
-        speechSynthesis.pause();
-        this.paused = true;
-        TextToSpeech.stop()
-    } else {
-        speechSynthesis.resume();
-        TextToSpeech.speak
-    }
+  pause(tts:any) {
+
 }
 }

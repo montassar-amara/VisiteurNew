@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
 })
 export class LocalPage implements OnInit {
   data = computed<any>(()=>{
-    const rawData = this.apiService.scanResult()
+    const rawData = this.apiService.localData()
     if(!rawData || !rawData.local || !rawData.local.length){
       return rawData;
     }

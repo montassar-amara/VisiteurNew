@@ -5,23 +5,25 @@
         <ion-icon slot="icon-only" [ios]="lang()==='ar'?'caret-forward':'caret-back'" [md]="lang()==='ar'?'caret-forward':'caret-back'"></ion-icon>
       </ion-button>
     </ion-buttons>
-      <ion-title [innerHTML]="data()?.location.name || ''"> </ion-title>
+      <ion-title [innerHTML]="data()?.location?.name || ''"> </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding" [fullscreen]="true">
-  <div [innerHTML]="data()?.location.description" id="tts"></div>
-  <ion-button (click)="start()" fill="clear" *ngIf="!playing"  >
+  @if(data()?.location?.description){
+    <div [innerHTML]="data()?.location?.description" #tts></div>
+  <ion-button (click)="start(tts)" fill="clear" *ngIf="!playing"  >
     <ion-icon slot="icon-only" name="play"></ion-icon>
   </ion-button>
-  <ion-button (click)="pause()" *ngIf="playing" fill="clear"  >
+  <ion-button (click)="pause(tts)" *ngIf="playing" fill="clear"  >
     <ion-icon slot="icon-only" name="pause" *ngIf="!paused"></ion-icon>
     <ion-icon slot="icon-only" name="play"  *ngIf="paused"></ion-icon>
   </ion-button>
-  <ion-button (click)="cancel()" *ngIf="playing" fill="clear"  >
+  <ion-button (click)="cancel(tts)" *ngIf="playing" fill="clear"  >
     <ion-icon slot="icon-only" name="close-circle"></ion-icon>
   </ion-button>
-  @if(data()?.attachement  && data()?.attachement.length){
+  }
+  @if(data()?.attachement  && data()?.attachement?.length){
   <h3>{{'Gallery' | translate}}</h3>
   <swiper-container loop="true" navigation="true"  [slidesPerView]="1" [loop]="true">
       <swiper-slide *ngFor="let item of data().attachement">
@@ -33,14 +35,14 @@
       </swiper-slide>
     </swiper-container>
   }
-  @if(data()?.enfants && data()?.enfants.length){
+  @if(data()?.enfants && data()?.enfants?.length){
   <h3>{{data()?.childname | translate}}</h3>
   <swiper-container loop="true" navigation="true"  [slidesPerView]="1" [loop]="true">
       <swiper-slide *ngFor="let item of data().enfants">
         <ion-card (click)="loadLocation(item)">
           <p-image [src]="item.cover" alt="Image" width="300" height="250" />
           <ion-card-header>
-            <ion-card-title [innerHTML]="item.name"></ion-card-title>
+            <ion-card-title [innerHTML]="item?.name"></ion-card-title>
           </ion-card-header>
         </ion-card>
       </swiper-slide>

@@ -15,8 +15,8 @@ import { environment } from 'src/environments/environment';
 })
 export class SoussitePage implements OnInit {
   data = computed<any>(()=>{
-    const rawData = this.apiService.scanResult()
-    if(!rawData || !rawData.soussite || !rawData.site.length){
+    const rawData = this.apiService.sousSiteData()
+    if(!rawData || !rawData?.soussite || !rawData?.soussite?.length){
       return rawData;
     }
     rawData.location = {description:"",shortdescription:"",name:""}

@@ -14,6 +14,10 @@ export class ApiService {
   settings$!:any;
   intro$ = signal<any>(undefined)
   scanResult = signal<any>(undefined)
+  siteData = signal<any>(undefined)
+  sousSiteData = signal<any>(undefined)
+  localData = signal<any>(undefined)
+  sousLocalData = signal<any>(undefined)
   siteMap = signal<any>(undefined) // {'01':site,...}
   getIntro(){
     this.http.get<any>(environment.apiUrl+'/Introbylang?lang='+ this.lang$())
