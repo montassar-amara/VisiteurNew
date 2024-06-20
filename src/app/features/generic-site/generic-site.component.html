@@ -10,7 +10,17 @@
 </ion-header>
 
 <ion-content class="ion-padding" [fullscreen]="true">
-  <div [innerHTML]="data()?.location.description"></div>
+  <div [innerHTML]="data()?.location.description" id="tts"></div>
+  <ion-button (click)="start()" fill="clear" *ngIf="!playing"  >
+    <ion-icon slot="icon-only" name="play"></ion-icon>
+  </ion-button>
+  <ion-button (click)="pause()" *ngIf="playing" fill="clear"  >
+    <ion-icon slot="icon-only" name="pause" *ngIf="!paused"></ion-icon>
+    <ion-icon slot="icon-only" name="play"  *ngIf="paused"></ion-icon>
+  </ion-button>
+  <ion-button (click)="cancel()" *ngIf="playing" fill="clear"  >
+    <ion-icon slot="icon-only" name="close-circle"></ion-icon>
+  </ion-button>
   @if(data()?.attachement  && data()?.attachement.length){
   <h3>{{'Gallery' | translate}}</h3>
   <swiper-container loop="true" navigation="true"  [slidesPerView]="1" [loop]="true">

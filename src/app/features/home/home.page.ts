@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild, effect, inject } from '@angular/core';
+import { Component, OnInit, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from 'src/app/shared/services/api.service';
 
 import { IonContent, IonHeader, IonTitle, IonToolbar,
-   IonFab, IonFabButton, IonIcon, IonButtons,IonBackButton,
-   IonRow,IonCol,IonImg,IonCard,IonButton,IonModal,IonItem,
+   IonFab, IonFabButton, IonIcon, IonButtons,
+   IonRow,IonCol,IonImg,IonCard,IonButton,IonItem,
    IonCardContent,
    } from '@ionic/angular/standalone';
 import { environment } from 'src/environments/environment';
@@ -13,8 +13,9 @@ import { FileTypePipe } from 'src/app/shared/pipes/file-type.pipe';
 import { TextToSpeech } from '@capacitor-community/text-to-speech';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AlertController } from '@ionic/angular';
-import { Barcode, BarcodeFormat, BarcodeScanner, GoogleBarcodeScannerModuleInstallState, LensFacing } from '@capacitor-mlkit/barcode-scanning';
+import { Barcode, BarcodeScanner, GoogleBarcodeScannerModuleInstallState } from '@capacitor-mlkit/barcode-scanning';
 import { Router } from '@angular/router';
+import {Html5QrcodeScanner} from "html5-qrcode";
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -23,8 +24,7 @@ import { Router } from '@angular/router';
   imports: [
     IonContent, IonHeader, IonTitle, IonToolbar,
     IonFab,IonFabButton,IonIcon, IonButtons,
-    IonRow,IonCol,IonImg,IonCard,IonButton,
-    IonBackButton,IonModal,IonItem,IonCardContent,
+    IonRow,IonCol,IonImg,IonCard,IonButton,IonItem,IonCardContent,
     CommonModule, FormsModule,
     FileTypePipe, TranslateModule],
 })
@@ -32,7 +32,6 @@ import { Router } from '@angular/router';
 export class HomePage implements OnInit {
   #apiService = inject(ApiService)
   #router = inject(Router)
-  @ViewChild(IonModal) modal!: IonModal;
   intro$ = this.#apiService.intro$
   imagebaseUrl = environment.baseUrlIntro
   siteMap = this.#apiService.siteMap
@@ -102,18 +101,16 @@ export class HomePage implements OnInit {
     }
 }
   async scan(): Promise<void> {
-
-    console.log('starting')
-    const granted = await this.requestPermissions();
+    try{
+      const granted = await this.requestPermissions();
     if (!granted) {
       this.presentAlert();
       return;
     }
-    const {available} = await BarcodeScanner.isGoogleBarcodeScannerModuleAvailable()
+      const {available} = await BarcodeScanner.isGoogleBarcodeScannerModuleAvailable()
     BarcodeScanner.addListener("googleBarcodeScannerModuleInstallProgress",async(res)=>{
         if(res.state===GoogleBarcodeScannerModuleInstallState.COMPLETED && res.progress===100){
           const {barcodes} = await BarcodeScanner.scan();
-          console.log(this.siteMap())
           if(this.siteMap()[barcodes[0].displayValue]){
             this.#apiService.fetchScan(barcodes[0].displayValue)
             BarcodeScanner.removeAllListeners()
@@ -126,12 +123,25 @@ export class HomePage implements OnInit {
 
     }else{
       const {barcodes} = await BarcodeScanner.scan();
-      console.log(this.siteMap())
       if(this.siteMap()[barcodes[0].displayValue]){
         this.#apiService.fetchScan(barcodes[0].displayValue)
         BarcodeScanner.removeAllListeners()
         BarcodeScanner.stopScan()
       }
+    }
+    }catch(err:any){
+      let html5QrcodeScanner = new Html5QrcodeScanner(
+        "reader",
+        { fps: 10, qrbox: {width: 250, height: 250} },
+        /* verbose= */ false);
+      html5QrcodeScanner.render(async(result:any)=>{
+      if(this.siteMap()[result]){
+        this.#apiService.fetchScan(result)
+        await html5QrcodeScanner.clear();
+      }else{
+        console.error('invalid code')
+      }
+      }, undefined);
     }
 
 

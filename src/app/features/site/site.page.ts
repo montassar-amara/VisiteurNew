@@ -1,4 +1,4 @@
-import { Component, OnInit, Signal, computed, effect, signal } from '@angular/core';
+import { Component, OnInit, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GenericSiteComponent } from '../generic-site/generic-site.component';
 import { ApiService } from 'src/app/shared/services/api.service';
