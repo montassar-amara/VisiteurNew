@@ -30,34 +30,14 @@ export class AppComponent implements OnInit{
     })
 
   }
-  async ngOnInit() {
+  ngOnInit() {
     this.router.navigate([''])
-
-    if(this.platform.is('mobileweb')){
-      const alert = await this.alertController.create({
-        header: "Venus",
-        subHeader: '',
-        message: "Souhaitez-vous télécharger l'application ?",
-        buttons: [
-          {
-            text:'OK',
-            role:'confirm',
-            handler:()=>{
-              window.open('/assets/apk/venus.apk')
-            }
-          },{
-            text:'Annuler',
-            role:'cancel'
-          }
-        ]
-
-      });
-
-      await alert.present();
-    }
   }
   changeLanguage(language: string) {
     this.translate.use(language);
+}
+download(){
+  window.open('/assets/apk/venus.apk')
 }
 
 }
