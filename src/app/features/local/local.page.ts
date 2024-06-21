@@ -32,17 +32,15 @@ export class LocalPage implements OnInit {
       rawData.location['shortdescription']=rawData.local[0]['an_short']
       rawData.location.name = rawData.local[0].an_name
     }
-    rawData.childname="sous local"
-    rawData.enfants=rawData.souslocal.map((ss:any)=>{
-      return ({
-        ...ss,
-        cover:ss.image_cover?(environment.localurl+ss.image_cover):'../../../assets/placeholder.png',
-        name:(lang==='fr')?ss.name:((lang==='ar'?ss.ar_name:ss.an_name) ?? ss.name)
-      })
-    })
+    rawData.childname=""
+    rawData.enfants=[]
+   if(rawData.attachement.length){
     rawData.attachement.map((att:any,index:number)=>{
       rawData.attachement[index].cover = att.link?(environment.localurl+att.link):'../../../assets/placeholder.png'
     })
+   }else{
+    rawData.attachement=[]
+   }
     return rawData
   })
   constructor(private apiService: ApiService) { }

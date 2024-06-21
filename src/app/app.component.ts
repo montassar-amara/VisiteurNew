@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, Component, OnInit, effect } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
-import { TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ApiService } from './shared/services/api.service';
 import { register } from 'swiper/element/bundle';
 import { Router } from '@angular/router';
+import { Platform,AlertController } from '@ionic/angular'
 
 register();
 export function HttpLoaderFactory(http: HttpClient) {
@@ -19,7 +20,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 })
 export class AppComponent implements OnInit{
-  constructor(public translate: TranslateService,private apiService:ApiService,private router:Router) {
+  constructor(public translate: TranslateService,private apiService:ApiService,private router:Router,private platform:Platform,private alertController: AlertController) {
     effect(()=>{
       const lang =this.apiService.lang$()
       this.translate.setDefaultLang(lang);
@@ -29,8 +30,31 @@ export class AppComponent implements OnInit{
     })
 
   }
-  ngOnInit() {
+  async ngOnInit() {
     this.router.navigate([''])
+
+    if(this.platform.is('mobileweb')){
+      const alert = await this.alertController.create({
+        header: "Venus",
+        subHeader: '',
+        message: "Souhaitez-vous télécharger l'application ?",
+        buttons: [
+          {
+            text:'OK',
+            role:'confirm',
+            handler:()=>{
+              window.open('/assets/apk/venus.apk')
+            }
+          },{
+            text:'Annuler',
+            role:'cancel'
+          }
+        ]
+
+      });
+
+      await alert.present();
+    }
   }
   changeLanguage(language: string) {
     this.translate.use(language);

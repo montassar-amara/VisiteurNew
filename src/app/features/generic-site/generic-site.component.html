@@ -11,7 +11,7 @@
 
 <ion-content class="ion-padding" [fullscreen]="true">
   @if(data()?.location?.description){
-    <div [innerHTML]="data()?.location?.description" #tts></div>
+    <div [innerHTML]="data()?.location?.description" #tts style="text-align: justify;"></div>
   <ion-button (click)="start(tts)" fill="clear" *ngIf="!playing"  >
     <ion-icon slot="icon-only" name="play"></ion-icon>
   </ion-button>

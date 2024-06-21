@@ -45,16 +45,20 @@ export class HomePage implements OnInit, OnDestroy {
       if(res.site){
         this.#apiService.siteData.set(res)
         this.#router.navigate(['site'])
-      }else if(res.soussite){
-        this.#apiService.sousSiteData.set(res)
-        this.#router.navigate(['soussite'])
-      }else if(res.local){
+      }
+      // else if(res.soussite){
+      //   this.#apiService.sousSiteData.set(res)
+      //   this.#router.navigate(['soussite'])
+      // }
+      else if(res.local){
         this.#apiService.localData.set(res)
         this.#router.navigate(['local'])
-      }else if(res.souslocal){
-        this.#apiService.sousLocalData.set(res)
-        this.#router.navigate(['souslocal'])
-      }else{
+      }
+      // else if(res.souslocal){
+      //   this.#apiService.sousLocalData.set(res)
+      //   this.#router.navigate(['souslocal'])
+      // }
+      else{
         console.log(res)
       }
     }

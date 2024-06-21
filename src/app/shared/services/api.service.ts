@@ -38,9 +38,9 @@ export class ApiService {
       if(res.access){
         const tmp = [
           ...res.sites.map((s:any)=>({...s,reference:s.refrence})),
-          ...res.soussites.map((s:any)=>({...s,reference:s.refrence})),
+          // ...res.soussites.map((s:any)=>({...s,reference:s.refrence})),
           ...res.local,
-          ...res.souslocal,
+          // ...res.souslocal,
         ]
         const transformedObject = tmp.reduce((acc:any, current:any) => {
           acc[current.reference] = current.name;

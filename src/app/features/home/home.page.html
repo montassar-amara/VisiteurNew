@@ -14,7 +14,7 @@
   <ion-row>
     <ion-card color="ennajma">
       <ion-card-content>
-        <div [dir]="intro$()?.rtl?'rtl':'ltr'" id="tts" [innerHTML]="intro$()?.description"></div>
+        <div [dir]="intro$()?.rtl?'rtl':'ltr'" id="tts" style="text-align: justify;" [innerHTML]="intro$()?.description"></div>
 
         @if(intro$() && intro$().attachement_audio && intro$().attachement_audio.length){
           <audio controls id="audio" hidden>

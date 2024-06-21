@@ -32,12 +32,12 @@ export class SitePage implements OnInit {
       rawData.location['shortdescription']=rawData.site[0]['anshortdescription']
       rawData.location.name = rawData.site[0].ansite
     }
-    rawData.childname="sous site"
-    rawData.enfants=rawData.soussite.map((ss:any)=>{
+    rawData.childname="Locaux"
+    rawData.enfants=rawData.local.map((ss:any)=>{
       return ({
         ...ss,
-        cover:ss.image_cover?(environment.siteurl+ss.image_cover):'../../../assets/placeholder.png',
-        name:(lang==='fr')?ss.name:((lang==='ar'?ss.arsite:(ss.ansite)) ?? ss.name)
+        cover:ss.image_cover?(environment.localurl+ss.image_cover):'../../../assets/placeholder.png',
+        name:(lang==='fr')?ss.name:((lang==='ar'?ss.ar_name:ss.an_name) ?? ss.name)
       })
     })
     rawData.attachement.map((att:any,index:number)=>{
@@ -52,7 +52,8 @@ export class SitePage implements OnInit {
   ngOnInit() {
   }
   handleRequest(item:any){
-    this.apiService.fetchScan(item.refrence)
+    // this.apiService.fetchScan(item.refrence)
+    this.apiService.fetchScan(item.reference)
   }
 
 }

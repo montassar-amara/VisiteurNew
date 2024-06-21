@@ -64,7 +64,7 @@ export class GenericSiteComponent implements OnInit, OnDestroy{
   handlePager(eve:any){
     const tmp = this.swiperRef?.nativeElement?.swiper.activeIndex
     if(tmp%10===7){
-      this.apiService.loadMore(Math.ceil(tmp/10))
+      this.apiService.loadMore(Math.ceil(tmp/10)+2)
     }
   }
 }
