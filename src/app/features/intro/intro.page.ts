@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar,IonButton,IonText } from '@ionic/angular/standalone';
 import { environment } from 'src/environments/environment';
 import { ApiService } from 'src/app/shared/services/api.service';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController,Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import Swiper from 'swiper';
+
 @Component({
   selector: 'app-intro',
   templateUrl: './intro.page.html',
@@ -27,7 +27,7 @@ export class IntroPage implements OnInit {
     slides:[],folder:''
   }
   @ViewChild('swiper') swiperRef!: any;
-
+  visible = false
  animationInProgress = false;
   config = {
     slidesPerView: 1,
@@ -35,11 +35,14 @@ export class IntroPage implements OnInit {
     pagination: true,
     loop: true,
   }
-  constructor(private ApiService: ApiService, private loadingCtrl: LoadingController,private router: Router,private translationconfig: TranslateService) { }
+  constructor(private ApiService: ApiService, private loadingCtrl: LoadingController,private router: Router,private translationconfig: TranslateService,private platform: Platform) { }
 
   ngOnInit() {
     this.ApiService.intro$.set(undefined)
     this.loadSetting();
+    if(this.platform.is('mobileweb') && !this.platform.is('pwa') && this.platform.is('android')){
+      this.visible = true
+    }
   }
   async loadSetting(event?: any) {
     const loading = await this.loadingCtrl.create({

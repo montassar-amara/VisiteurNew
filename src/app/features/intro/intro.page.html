@@ -18,5 +18,13 @@
               <ion-text class="text-welcome" color="light">العربية</ion-text>
           </ion-button>
       </div>
+
   </span>
+  <ion-fab slot="fixed" horizontal="end" vertical="bottom" class="ion-margin" *ngIf="visible">
+    <ion-fab-button (click)="link.click()">
+      <ion-icon name="logo-android" ></ion-icon>
+      <a href="/assets/apk/venus.apk" #link >
+    </a>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
